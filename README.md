@@ -7,9 +7,9 @@ Given unpunctuated (and perhaps also un-capitalized) text, this module helps to 
 Seq2Seq LSTM
 
 ## Pre-trained models available
-0: deeppunct_checkpoint_tatoeba_cornell (trained on tatoeba dataset)
-1: deeppunct_checkpoint_google_news (trained on google news dataset)
-2: deeppunct_checkpoint_wikipedia (trained on Wikipedia dataset)
+0: deeppunct_checkpoint_tatoeba_cornell (trained on tatoeba dataset)  
+1: deeppunct_checkpoint_google_news (trained on google news dataset)  
+2: deeppunct_checkpoint_wikipedia (trained on Wikipedia dataset)  
 
 ## Requirements
 Tensorflow=1.14
