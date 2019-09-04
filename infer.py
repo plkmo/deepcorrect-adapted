@@ -92,7 +92,7 @@ class TED_dataset(object):
         return corrected, gt
     
     def test_accuracy(self,):
-        hits = 0; total = 0;
+        hits = 0; total = 0; sent_no = 0;
         logger.info("Testing...")
         for idx, (sents, sents_nopunc) in tqdm(enumerate(zip(self.df['sents'], self.df['sents_nopunc'])), total=len(self.df)):
             try:
@@ -107,13 +107,14 @@ class TED_dataset(object):
                             total += 1
                             if s == c:
                                 hits += 1
+                    sent_no += 1
             except Exception as _:
                 continue
             
             if idx % 10 == 0:
                 print("Punctuated: %s" % corrected)
                 print("Ground Truth: %s" % sents)
-                print("Sentences considered: %d" % (idx + 1))
+                print("Sentences considered: %d" % (sent_no))
                 print("Total punctuations scored: %d" % total)
                 print("Total punctuation hits: %d" % hits)
                 print("Accuracy thus far: %.5f %%" % (100*hits/total))
