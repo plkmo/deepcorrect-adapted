@@ -111,7 +111,7 @@ class TED_dataset(object):
             except Exception as _:
                 continue
             
-            if idx % 10 == 0:
+            if (idx % 10 == 0) and (total > 0):
                 print("Punctuated: %s" % corrected)
                 print("Ground Truth: %s" % sents)
                 print("Sentences considered: %d" % (sent_no))
