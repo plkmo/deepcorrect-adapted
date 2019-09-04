@@ -100,6 +100,12 @@ class TED_dataset(object):
                 corrected = re.sub("/", ",", corrected) # sub / with comma!!
                 corrected = self.buffer_punctuation(corrected)
                 sents = self.buffer_punctuation(sents)
+                c_labels = re.findall("[\.*\?*\,*!* *]+", corrected)
+                s_labels = re.findall("[\.*\?*\,*!* *]+", sents)
+                c_labels = [re.sub(r"[ ]+", "", c) for c in c_labels]
+                s_labels = [re.sub(r"[ ]+", "", s) for s in s_labels]
+                print(c_labels)
+                print(s_labels)
                 corrected = corrected.split(); sents = sents.split()
                 if len(corrected) == len(sents):
                     for c, s in zip(corrected, sents):
