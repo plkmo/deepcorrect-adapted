@@ -8,7 +8,7 @@ import pickle
 import re
 import pandas as pd
 import numpy as np
-from deepcorrect import DeepCorrect
+from deepcorrect import DeepCorrect, corrector_module
 from argparse import ArgumentParser
 from tqdm import tqdm
 import logging
@@ -74,7 +74,7 @@ class TED_dataset(object):
     
     def punctuate_sent(self, sent):
         corrected = self.corrector.correct(sent)[0]['sequence']
-        corrected = re.sub("/", ",", corrected) # sub / with comma!!
+        corrected = corrector_module(corrected, sent) 
         return corrected
         
     def punctuate_random(self,):
@@ -84,7 +84,7 @@ class TED_dataset(object):
             gt = self.df.loc[choice]['sents']
             try:
                 corrected = self.corrector.correct(self.df.loc[choice]['sents_nopunc'])[0]['sequence']
-                corrected = re.sub("/", ",", corrected) # sub / with comma!!
+                corrected = corrector_module(corrected, self.df.loc[choice]['sents_nopunc']) 
                 print("Punctuated: %s\n" % corrected);
                 print("Ground truth: %s" % gt)
             except Exception as _:
@@ -145,5 +145,5 @@ if __name__ == "__main__":
             break
         logger.info("Punctuating...")
         corrected = corrector.correct(sent)[0]['sequence']
-        corrected = re.sub("/", ",", corrected) # sub / with comma!!
+        corrected = corrector_module(corrected, sent)
         print(corrected)

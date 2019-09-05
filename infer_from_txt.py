@@ -4,6 +4,7 @@ Created on Thu Sep  5 09:06:38 2019
 
 @author: tsd
 """
+from deepcorrect import corrector_module
 import re
 from infer import load_model
 from argparse import ArgumentParser
@@ -19,6 +20,18 @@ def transcribe(args):
     with open(args.transcripts, "r", encoding="utf8") as f:
         sents = f.read()
     sents = sents.split('\n')
+    
+    '''
+    if remove_numbers:
+        out = []; nums_list = []
+        for sent in sents:
+            sent1 = re.sub("[0-9]+", "<unk>", sent)
+            nums = re.findall("[0-9]+", sent)
+            nums_list.append(nums)
+            out.append(sent1)
+        sents = out
+    '''  
+    
     logger.info("Loaded %d sentences." % len(sents))
     
     logger.info("Loading model...")
@@ -30,15 +43,16 @@ def transcribe(args):
     
     logger.info("Punctuating...")
     punctuated = []
-    for sent in tqdm(sents):
+    for idx, sent in tqdm(enumerate(sents), total=len(sents)):
         try:
             corrected = corrector.correct(sent)[0]['sequence']
-            corrected = re.sub("/", ",", corrected) # sub / with comma!!
-            punctuated.append(corrected)
+            corrected = corrector_module(corrected, sent)
         except Exception as _:
-            punctuated.append(sent)
+            corrected = sent + "."
             logger.info("Not punctuated due to error: %s" % sent)
-            
+        
+        punctuated.append(corrected)
+        
     logger.info("Punctuated %d sentences." % len(punctuated))
     assert len(sents) == len(punctuated)
     
