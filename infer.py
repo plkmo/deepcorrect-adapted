@@ -105,7 +105,9 @@ class TED_dataset(object):
                 c_labels = [re.sub(r"[ ]+", "", c) for c in c_labels]
                 s_labels = [re.sub(r"[ ]+", "", s) for s in s_labels]
                 print(c_labels)
+                print(corrected)
                 print(s_labels)
+                print(sents)
                 corrected = corrected.split(); sents = sents.split()
                 if len(corrected) == len(sents):
                     for c, s in zip(corrected, sents):
